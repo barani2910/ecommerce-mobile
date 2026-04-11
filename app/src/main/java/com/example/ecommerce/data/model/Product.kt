@@ -1,0 +1,15 @@
+package com.example.ecommerce.data.model
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.io.Serializable
+
+@Entity(tableName = "products")
+data class Product(
+    @PrimaryKey val id: String = "",
+    val name: String = "",
+    val description: String = "",
+    val price: Double = 0.0,
+    val imageUrl: String = "",
+    val category: String = ""
+) : Serializable
