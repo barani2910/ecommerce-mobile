@@ -1,6 +1,7 @@
 package com.example.ecommerce.ui.cart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,9 +53,15 @@ class CartFragment : Fragment() {
 
     private fun observeCart() {
         CartRepository.cartItems.observe(viewLifecycleOwner) { items ->
+            Log.d("CartFragment", "Cart items changed: ${items.size}")
             adapter.submitList(items)
             binding.tvTotalPrice.text = "$${String.format("%.2f", CartRepository.getTotalPrice())}"
             binding.btnCheckout.isEnabled = items.isNotEmpty()
+            
+            // Show/hide empty state (optional but recommended)
+            if (items.isEmpty()) {
+                // You can add an empty view in XML and show it here
+            }
         }
     }
 

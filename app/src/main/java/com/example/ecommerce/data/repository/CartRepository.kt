@@ -11,10 +11,11 @@ object CartRepository {
 
     fun addToCart(product: Product) {
         val currentItems = _cartItems.value?.toMutableList() ?: mutableListOf()
-        val existingItem = currentItems.find { it.product.id == product.id }
+        val index = currentItems.indexOfFirst { it.product.id == product.id }
 
-        if (existingItem != null) {
-            existingItem.quantity++
+        if (index != -1) {
+            val item = currentItems[index]
+            currentItems[index] = item.copy(quantity = item.quantity + 1)
         } else {
             currentItems.add(CartItem(id = product.id, product = product, quantity = 1))
         }
@@ -29,12 +30,13 @@ object CartRepository {
 
     fun updateQuantity(productId: String, quantity: Int) {
         val currentItems = _cartItems.value?.toMutableList() ?: mutableListOf()
-        val item = currentItems.find { it.product.id == productId }
-        if (item != null) {
+        val index = currentItems.indexOfFirst { it.product.id == productId }
+        
+        if (index != -1) {
             if (quantity <= 0) {
-                currentItems.remove(item)
+                currentItems.removeAt(index)
             } else {
-                item.quantity = quantity
+                currentItems[index] = currentItems[index].copy(quantity = quantity)
             }
         }
         _cartItems.value = currentItems

@@ -38,6 +38,10 @@ class HomeFragment : Fragment() {
         setupRecyclerView()
         setupCategories()
         observeViewModel()
+
+        binding.fabCart.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_cartFragment)
+        }
     }
 
     private fun setupMenu() {
