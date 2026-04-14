@@ -12,5 +12,6 @@ data class Order(
     val userId: String = "",
     val items: List<CartItem> = emptyList(),
     val totalPrice: Double = 0.0,
+    val address: String = "",
     val timestamp: Long = System.currentTimeMillis()
 )

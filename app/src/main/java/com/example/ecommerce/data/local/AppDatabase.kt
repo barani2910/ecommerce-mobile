@@ -9,7 +9,7 @@ import com.example.ecommerce.data.model.Order
 import com.example.ecommerce.data.model.Product
 import com.example.ecommerce.data.model.User
 
-@Database(entities = [User::class, Product::class, Order::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Product::class, Order::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
@@ -26,7 +26,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "ecommerce_db"
-                ).build()
+                )
+                .fallbackToDestructiveMigration() // Automatically handles schema changes by clearing the database
+                .build()
                 INSTANCE = instance
                 instance
             }

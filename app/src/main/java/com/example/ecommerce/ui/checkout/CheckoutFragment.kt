@@ -38,12 +38,12 @@ class CheckoutFragment : Fragment() {
         binding.tvTotalAmount.text = "$${String.format("%.2f", CartRepository.getTotalPrice())}"
 
         binding.btnPlaceOrder.setOnClickListener {
-            viewModel.placeOrder()
+            val address = binding.etAddress.text.toString()
+            viewModel.placeOrder(address)
         }
     }
 
     private fun setupRecyclerView() {
-        // Reuse CartAdapter but disable interaction buttons for summary
         adapter = CartAdapter(
             onIncrease = {},
             onDecrease = {},

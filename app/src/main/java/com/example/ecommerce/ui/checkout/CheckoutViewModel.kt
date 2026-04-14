@@ -23,13 +23,19 @@ class CheckoutViewModel(application: Application) : AndroidViewModel(application
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
-    fun placeOrder() {
+    fun placeOrder(address: String) {
+        if (address.isBlank()) {
+            _error.value = "Please enter a valid address"
+            return
+        }
+
         val cartItems = CartRepository.cartItems.value ?: emptyList()
         if (cartItems.isEmpty()) return
 
         val order = Order(
             items = cartItems,
-            totalPrice = CartRepository.getTotalPrice()
+            totalPrice = CartRepository.getTotalPrice(),
+            address = address
         )
 
         viewModelScope.launch {
